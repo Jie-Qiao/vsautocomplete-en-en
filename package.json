@@ -33,7 +33,8 @@
             "request": "*"
       },
       "dependencies": {
-            "sourcemap": "^0.1.0"
+            "sourcemap": "^0.1.0",
+            "js-levenshtein": "*"
       },
       "repository": {
             "type": "git",
