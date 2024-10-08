@@ -1,5 +1,6 @@
 /// <reference path="../vscode.d.ts" />
 let vscode = require('vscode');
+const {levenshteinDistance, closest} = require('fastest-levenshtein')
 
 const HINT_DATA_FILES = {
     WORD: `${__dirname}/../hint_data/words.json`
@@ -65,33 +66,33 @@ function loadHintData() {
         wordCompletionItems.push(item);
     });
 }
-function levenshteinDistance(a, b) {
-    if (a.length === 0) return b.length;
-    if (b.length === 0) return a.length;
+// function levenshteinDistance(a, b) {
+//     if (a.length === 0) return b.length;
+//     if (b.length === 0) return a.length;
 
-    const row = Array(b.length + 1).fill(0);
+//     const row = Array(b.length + 1).fill(0);
 
-    for (let i = 0; i <= b.length; i++) {
-        row[i] = i;
-    }
+//     for (let i = 0; i <= b.length; i++) {
+//         row[i] = i;
+//     }
 
-    for (let i = 1; i <= a.length; i++) {
-        let prev = i;
-        for (let j = 1; j <= b.length; j++) {
-            let current;
-            if (a[i - 1] === b[j - 1]) {
-                current = row[j - 1];
-            } else {
-                current = Math.min(row[j - 1] + 1, prev + 1, row[j] + 1);
-            }
-            row[j - 1] = prev;
-            prev = current;
-        }
-        row[b.length] = prev;
-    }
+//     for (let i = 1; i <= a.length; i++) {
+//         let prev = i;
+//         for (let j = 1; j <= b.length; j++) {
+//             let current;
+//             if (a[i - 1] === b[j - 1]) {
+//                 current = row[j - 1];
+//             } else {
+//                 current = Math.min(row[j - 1] + 1, prev + 1, row[j] + 1);
+//             }
+//             row[j - 1] = prev;
+//             prev = current;
+//         }
+//         row[b.length] = prev;
+//     }
 
-    return row[b.length];
-}
+//     return row[b.length];
+// }
 function searchHintCompletionItems(input) {
     if (input.length==1){
         return wordCompletionItems.filter(it => it._filter.startsWith(input));
